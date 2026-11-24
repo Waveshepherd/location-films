@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 2. On vide toutes les variables de session (comme vu dans ton cours)
+// 2. On vide toutes les variables de session
 session_unset();
 
 // 3. On supprime le cookie de session côté navigateur par sécurité

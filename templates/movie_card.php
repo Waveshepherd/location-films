@@ -2,7 +2,7 @@
     <img src="<?= htmlspecialchars($movie['image_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>">
     <div class="movie-info">
         <h3>
-            <a href="/movie.php?id=<?= (int)$movie['id'] ?>">
+            <a href="/movie.php?id=<?= (int)$movie['Id_movie'] ?>">
                 <?= htmlspecialchars($movie['title']) ?>
             </a>
         </h3>

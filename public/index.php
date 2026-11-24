@@ -1,33 +1,11 @@
 <?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../templates/header.php';
 
-// Tableau temporaire de films pour tester le rendu visuel
-$movies = [
-    [
-        'id' => 1,
-        'title' => 'Inception',
-        'price' => 3.99,
-        'image_url' => 'https://placehold.co'
-    ],
-    [
-        'id' => 2,
-        'title' => 'Interstellar',
-        'price' => 4.99,
-        'image_url' => 'https://placehold.co'
-    ],
-    [
-        'id' => 3,
-        'title' => 'The Dark Knight',
-        'price' => 3.99,
-        'image_url' => 'https://placehold.co'
-    ],
-    [
-        'id' => 4,
-        'title' => 'Matrix',
-        'price' => 2.99,
-        'image_url' => 'https://placehold.co'
-    ]
-];
+$stmt = $pdo->query('SELECT * FROM movie ORDER BY Id_movie DESC LIMIT 8');
+$movies = $stmt->fetchAll();
 ?>
 
 <section class="hero">
@@ -47,3 +25,4 @@ $movies = [
 <?php
 require_once __DIR__ . '/../templates/footer.php';
 ?>
+

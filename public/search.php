@@ -1,23 +1,25 @@
 <?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../includes/database.php';
 require_once __DIR__ . '/../templates/header.php';
 
 $query = trim($_GET['q'] ?? '');
+$movies = [];
 
-// Simulation de résultats de recherche pour le visuel
-$movies = [
-    [
-        'id' => 1,
-        'title' => 'Inception',
-        'price' => 3.99,
-        'image_url' => 'https://placehold.co'
-    ],
-    [
-        'id' => 2,
-        'title' => 'Interstellar',
-        'price' => 4.99,
-        'image_url' => 'https://placehold.co'
-    ]
-];
+if ($query !== '') {
+    $stmt = $pdo->prepare('
+        SELECT * FROM movie 
+        WHERE title LIKE :search_title OR director LIKE :search_director 
+        ORDER BY title ASC
+    ');
+    $likeParam = '%' . $query . '%';
+    $stmt->execute([
+        'search_title'    => $likeParam,
+        'search_director' => $likeParam
+    ]);
+    $movies = $stmt->fetchAll();
+}
 ?>
 
 <section class="movies-section">
@@ -25,7 +27,7 @@ $movies = [
     <p class="subtitle"><?= count($movies) ?> film(s) trouvé(s) par titre ou réalisateur.</p>
 
     <?php if (empty($movies)): ?>
-        <p class="empty-msg">Aucun film ne correspond à votre recherche.</p>
+        <p class="subtitle">Aucun film ne correspond à votre recherche.</p>
     <?php else: ?>
         <div class="movies-grid">
             <?php foreach ($movies as $movie): ?>

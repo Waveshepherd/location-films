@@ -17,12 +17,14 @@
             </form>
 
             <nav class="nav-links">
-                <a href="/category.php?cat=action">Action</a>
-                <a href="/category.php?cat=drama">Drame</a>
+                <a href="/category.php?id=1">Action</a>
+                <a href="/category.php?id=2">Drame</a>
+                <a href="/category.php?id=3">Science-Fiction</a>
                 <a href="/cart.php">Panier (0)</a>
                 <a href="/login.php" class="btn-outline">Connexion</a>
                 <a href="/register.php" class="btn-primary">Inscription</a>
             </nav>
+
         </div>
     </header>
     <main class="container">

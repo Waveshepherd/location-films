@@ -2,14 +2,12 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/database.php';
+require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../templates/header.php';
 
+// Récupère l'ID de la catégorie depuis l'URL et le sécurise en int pour getCategoryById et si pas de id on le met à 1 par défaut
 $idCategorie = (int)($_GET['id'] ?? 1);
-
-// 1. Récupère le nom de la catégorie
-$stmtCat = $pdo->prepare('SELECT Id_categorie, name FROM categorie WHERE Id_categorie = :id');
-$stmtCat->execute(['id' => $idCategorie]);
-$category = $stmtCat->fetch();
+$category = getCategoryById($pdo, $idCategorie);
 
 if (!$category) {
     echo '<p class="subtitle">Catégorie introuvable.</p>';
@@ -17,16 +15,7 @@ if (!$category) {
     exit;
 }
 
-// 2. Récupère tous les films liés à cette catégorie via la table pivot
-$stmtMovies = $pdo->prepare('
-    SELECT m.* 
-    FROM movie m
-    JOIN movie_categorie mc ON m.Id_movie = mc.Id_movie
-    WHERE mc.Id_categorie = :id
-    ORDER BY m.title ASC
-');
-$stmtMovies->execute(['id' => $idCategorie]);
-$movies = $stmtMovies->fetchAll();
+$movies = getMoviesByCategory($pdo, $idCategorie);
 ?>
 
 <section class="movies-section">
@@ -43,3 +32,4 @@ $movies = $stmtMovies->fetchAll();
 <?php
 require_once __DIR__ . '/../templates/footer.php';
 ?>
+

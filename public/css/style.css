@@ -42,9 +42,9 @@ main.container {
 
 .nav-content {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
@@ -59,7 +59,6 @@ main.container {
     display: flex;
     flex: 1;
     max-width: 400px;
-    min-width: 240px;
 }
 
 .search-bar input {
@@ -94,10 +93,9 @@ main.container {
 
 .nav-links {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    font-size: 0.95rem;
 }
 
 .nav-links a:hover {

@@ -1,15 +1,12 @@
 <?php
 declare(strict_types=1);
 
-// 1. On récupère la session en cours pour pouvoir la détruire
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/../includes/session.php';
 
-// 2. On vide toutes les variables de session
-session_unset();
+// 1. Vide toutes les variables de la session courante
+$_SESSION = [];
 
-// 3. On supprime le cookie de session côté navigateur par sécurité
+// 2. Supprime le cookie de session dans le navigateur du visiteur
 if (ini_get('session.use_cookies')) {
     $params = session_get_cookie_params();
     setcookie(
@@ -23,9 +20,9 @@ if (ini_get('session.use_cookies')) {
     );
 }
 
-// 4. On détruit définitivement la session sur le serveur
+// 3. Détruit définitivement le fichier de session côté serveur
 session_destroy();
 
-// 5. Redirection immédiate vers la page d'accueil (suivie de exit)
+// 4. Redirige vers la page d'accueil
 header('Location: /index.php');
 exit;

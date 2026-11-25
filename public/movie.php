@@ -2,13 +2,11 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/database.php';
+require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../templates/header.php';
 
-$idMovie = (int)($_GET['id'] ?? 0);
-
-$stmt = $pdo->prepare('SELECT * FROM movie WHERE Id_movie = :id');
-$stmt->execute(['id' => $idMovie]);
-$movie = $stmt->fetch();
+$movieId = (int)($_GET['id'] ?? 0);
+$movie = getMovieById($pdo, $movieId);
 
 if (!$movie) {
     echo '<p class="subtitle">Film introuvable.</p>';
@@ -16,15 +14,7 @@ if (!$movie) {
     exit;
 }
 
-// Récupère les catégories associées à ce film
-$stmtCats = $pdo->prepare('
-    SELECT c.Id_categorie, c.name 
-    FROM categorie c
-    JOIN movie_categorie mc ON c.Id_categorie = mc.Id_categorie
-    WHERE mc.Id_movie = :id
-');
-$stmtCats->execute(['id' => $idMovie]);
-$categories = $stmtCats->fetchAll();
+$categories = getCategoriesByMovieId($pdo, $movieId);
 ?>
 
 <section class="movie-details">
@@ -32,8 +22,8 @@ $categories = $stmtCats->fetchAll();
         <img src="<?= htmlspecialchars($movie['image_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>">
     </div>
 
-    <div class="movie-meta">
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <div class="movie-content">
+        <div class="badges">
             <?php foreach ($categories as $cat): ?>
                 <a href="/category.php?id=<?= (int)$cat['Id_categorie'] ?>" class="badge">
                     <?= htmlspecialchars($cat['name']) ?>
@@ -42,25 +32,20 @@ $categories = $stmtCats->fetchAll();
         </div>
 
         <h1><?= htmlspecialchars($movie['title']) ?></h1>
-        
-        <p class="meta-line">
-            <strong>Réalisateur :</strong> 
-            <a href="/director.php?name=<?= urlencode($movie['director']) ?>" class="director-link">
-                <?= htmlspecialchars($movie['director']) ?>
-            </a>
-        </p>
-        
-        <p class="meta-line">
-            <strong>Acteurs :</strong> <?= htmlspecialchars($movie['actors']) ?>
-        </p>
+        <p class="meta">Réalisé par <a href="/director.php?name=<?= urlencode($movie['director']) ?>" class="director-link"><?= htmlspecialchars($movie['director']) ?></a></p>
+        <p class="meta">Acteurs : <?= htmlspecialchars($movie['actors']) ?></p>
 
-        <p class="description">
-            <?= htmlspecialchars($movie['plot'] ?: $movie['shortplot']) ?>
-        </p>
+        <p class="short-plot"><?= htmlspecialchars($movie['shortplot']) ?></p>
+        <p class="full-plot"><?= htmlspecialchars($movie['plot']) ?></p>
 
         <div class="purchase-box">
-            <span class="detail-price"><?= number_format((float)$movie['price'], 2, ',', ' ') ?> €</span>
-            <button type="button" class="btn-primary">Ajouter au panier</button>
+            <span class="price-large"><?= number_format((float)$movie['price'], 2, ',', ' ') ?> €</span>
+            <form action="/cart.php" method="post">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="movie_id" value="<?= (int)$movie['Id_movie'] ?>">
+                <button type="submit" class="btn-primary">Ajouter au panier</button>
+            </form>
         </div>
     </div>
 </section>

@@ -2,24 +2,11 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/database.php';
+require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../templates/header.php';
 
 $query = trim($_GET['q'] ?? '');
-$movies = [];
-
-if ($query !== '') {
-    $stmt = $pdo->prepare('
-        SELECT * FROM movie 
-        WHERE title LIKE :search_title OR director LIKE :search_director 
-        ORDER BY title ASC
-    ');
-    $likeParam = '%' . $query . '%';
-    $stmt->execute([
-        'search_title'    => $likeParam,
-        'search_director' => $likeParam
-    ]);
-    $movies = $stmt->fetchAll();
-}
+$movies = searchMovies($pdo, $query);
 ?>
 
 <section class="movies-section">

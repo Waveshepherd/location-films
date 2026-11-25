@@ -34,9 +34,7 @@ $categories = getCategoriesByMovieId($pdo, $movieId);
         <h1><?= htmlspecialchars($movie['title']) ?></h1>
         <p class="meta">Réalisé par <a href="/director.php?name=<?= urlencode($movie['director']) ?>" class="director-link"><?= htmlspecialchars($movie['director']) ?></a></p>
         <p class="meta">Acteurs : <?= htmlspecialchars($movie['actors']) ?></p>
-
-        <p class="short-plot"><?= htmlspecialchars($movie['shortplot']) ?></p>
-        <p class="full-plot"><?= htmlspecialchars($movie['plot']) ?></p>
+        <p class="full-plot">Résumé : <?= htmlspecialchars($movie['plot']) ?></p>
 
         <div class="purchase-box">
             <span class="price-large"><?= number_format((float)$movie['price'], 2, ',', ' ') ?> €</span>

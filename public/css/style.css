@@ -33,7 +33,7 @@ main.container {
     padding-bottom: 3rem;
 }
 
-/* Barre de navigation (Responsive) */
+/* Barre de navigation */
 .navbar {
     background-color: #060913;
     border-bottom: 1px solid #2e364f;
@@ -52,7 +52,6 @@ main.container {
     font-size: 1.5rem;
     font-weight: 800;
     color: #8b5cf6;
-    letter-spacing: -0.5px;
 }
 
 .search-bar {
@@ -115,7 +114,7 @@ main.container {
 
 .btn-primary {
     background-color: #7c3aed;
-    color: white !important;
+    color: white;
     border: 1px solid #7c3aed;
 }
 
@@ -124,13 +123,13 @@ main.container {
 }
 
 .btn-outline {
-    border: 1px solid #475569;
+    border: 1px solid #be123c;
     color: #e2e8f0;
+    background-color: #be123c;
 }
 
 .btn-outline:hover {
-    border-color: #8b5cf6;
-    color: #a78bfa;
+    background-color: #9f1239;
 }
 
 /* Section Présentation (Hero) */
@@ -154,7 +153,7 @@ main.container {
     margin: 0 auto;
 }
 
-/* Grille des films (Responsive automatique) */
+/* Grille des films */
 .movies-section h2 {
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
@@ -226,7 +225,7 @@ main.container {
     font-size: 0.9rem;
 }
 
-/* Page Détails d'un film (Responsive) */
+/* Page movie */
 .movie-details {
     display: flex;
     flex-wrap: wrap;
@@ -243,6 +242,7 @@ main.container {
 }
 
 .movie-poster img {
+    justify-content: center;
     width: 100%;
     border-radius: 8px;
     display: block;
@@ -346,7 +346,7 @@ main.container {
     display: inline-block;
     padding: 0.45rem 0.9rem;
     background-color: #be123c;
-    color: white !important;
+    color: white;
     border: none;
     border-radius: 6px;
     font-weight: 600;
